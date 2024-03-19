@@ -1,16 +1,23 @@
-# This is a sample Python script.
+# https://www.youtube.com/watch?v=9F1FKpwbnl0&t=369s
 
-# Press Umschalt+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+spielfeld = {}  # Key = (spalte, zeile), value, ='O' oder 'X'
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Strg+F8 to toggle the breakpoint.
+SPALTEN = 7
+ZEILEN = 6
+ZELLEN = SPALTEN * ZEILEN
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+def findeTiefsteZeile(spalte):
+    global zeile
+    for zeile in reversed(range(ZEILEN)):
+        if (spalte, zeile) not in spielfeld:
+            return zeile
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+while True:
+    spalte = int(input('Dein Zug (Spalte 0-6): '))
+    zeile = findeTiefsteZeile(spalte)
+    print(spalte, zeile)
+    spielfeld[(spalte, zeile)] = 'O'
+    print(spielfeld3)
+
