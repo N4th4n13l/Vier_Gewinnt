@@ -5,6 +5,8 @@ spielfeld = {}  # Key = (spalte, zeile), value, ='O' oder 'X'
 SPALTEN = 7
 ZEILEN = 6
 ZELLEN = SPALTEN * ZEILEN
+#  zum Testen, ob jemand gewonnen hat - siehe Bild in Bilder
+RICHTUNGEN = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
 
 
 def findeTiefsteZeile(spalte):
@@ -31,13 +33,42 @@ def print_spielfeld():
         else:
             print('.', end=' ')
     print()
+# -----------------------------------------
+def gewonnen(spieler):  # -----------------------------------
+    stein = 'O' if spieler else 'X'
+    for pos in spielfeld:
+        for richtung in RICHTUNGEN:
+            vier_in_einer_Reihe = True
+            for i in range(4):
+                spalte, zeile = pos
+                delta_spalte, delta_zeile = richtung
+                p1 = (spalte + delta_spalte*i, zeile + delta_zeile*i)
+                if p1 in spielfeld and spielfeld[p1] + stein: continue
+                vier_in_einer_Reihe = False
+                break
+            if vier_in_einer_Reihe:
+                return True
+# -----------------------------------------------------------
+# -----------------------------------------------------
 
+
+spieler = True
 
 while True:
     while True:
+        print('**************************')
+        print('Willkommen zu VIER GEWINNT')
+        print_spielfeld()
+        print('')
+        print('--------------------------')
         spalte = int(input('Dein Zug (Spalte 0-6): '))
         if column_valid(spalte):
             break
     zeile = findeTiefsteZeile(spalte)
-    spielfeld[(spalte, zeile)] = 'O'
-    print_spielfeld()
+    spielfeld[(spalte, zeile)] = 'O' if spieler else 'X'
+    if gewonnen(spieler):
+        print_spielfeld()
+        print('GEWONNEN!!!')
+        break
+    #  wechseln des Spielers
+    spieler = not spieler
